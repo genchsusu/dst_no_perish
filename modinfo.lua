@@ -8,14 +8,14 @@ version = '1.0.0'
 description = e_or_z(
     [[
 New item:
-    Rotbox: The food in the rotbox will accelerate spoilage.
+    Rotbox: Turns foods into spoiled_food. Makes other items into ashes or charcoal.
 Configuration modification:
     The drying Rack permanently preserves food.
     The speed of food decay can be adjusted or even returned fresh.
     ]],
     [[
 新物品：
-    腐烂机：腐烂机里的食物会加速变质。
+    腐烂机：快速腐烂食物，把其他物品变成灰烬或者木炭。
 配置修改：
     晒肉架永久保存食物。
     可以调整食物的腐烂速度甚至于返鲜。

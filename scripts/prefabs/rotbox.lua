@@ -3,9 +3,13 @@ require "prefabutil"
 local assets =
 {
     Asset("ANIM", "anim/rotbox.zip"),
-    Asset("ATLAS", "images/inventoryimages/rotbox.xml"),
+    Asset("ANIM", "anim/ui_chester_shadow_3x4.zip"),
     Asset("IMAGE", "images/inventoryimages/rotbox.tex")
+}
 
+local prefabs =
+{
+    "collapse_small",
 }
 
 local function onopen(inst) 
@@ -38,17 +42,6 @@ local function onbuilt(inst)
     inst.AnimState:PlayAnimation("place")
     inst.AnimState:PushAnimation("closed", false)
     inst.SoundEmitter:PlaySound("dontstarve/common/icebox_craft")
-end
-
-local function EditContainer(inst)
-    local self
-    if TheWorld.ismastersim then
-        self = inst.components.container
-    else
-        self = inst.replica.container
-    end
-
-    self:WidgetSetup("icebox")
 end
 
 local function TransformItem(inst, slot, transform_prefab)
@@ -109,19 +102,12 @@ local function fn(Sim)
     inst.entity:SetPristine()
 
     if not TheWorld.ismastersim then
-        local _OnEntityReplicated = inst.OnEntityReplicated
-        inst.OnEntityReplicated = function(inst)
-            if _OnEntityReplicated then
-                _OnEntityReplicated(inst)
-            end
-            EditContainer(inst)
-        end
         return inst
     end
 
     inst:AddComponent("inspectable")
     inst:AddComponent("container")
-    EditContainer(inst)
+    inst.components.container:WidgetSetup("rotbox")
     inst.components.container.onopenfn = onopen
     inst.components.container.onclosefn = onclose
     inst.components.container.skipclosesnd = true
@@ -144,5 +130,5 @@ local function fn(Sim)
     return inst
 end
 
-return Prefab( "common/rotbox", fn, assets), 
-        MakePlacer("common/rotbox_placer", "rotbox", "rotbox", "closed")
+return Prefab( "rotbox", fn, assets, prefabs),
+        MakePlacer("rotbox_placer", "rotbox", "rotbox", "closed")
