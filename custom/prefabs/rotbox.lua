@@ -22,10 +22,12 @@ local function SetLanguage()
         STRINGS.NAMES.ROTBOX = "腐烂机"
         STRINGS.RECIPE_DESC.ROTBOX = "快速腐烂食物，把其他物品变成灰烬或者木炭。"
         STRINGS.CHARACTERS.GENERIC.DESCRIBE.ROTBOX = "啊，神奇的机器！"
+        STRINGS.UI.ROTBOX_BUTTON = "清空"
     else
         STRINGS.NAMES.ROTBOX = "Rotbox"
         STRINGS.RECIPE_DESC.ROTBOX = "Turns foods into spoiled_food. Makes other items into ashes or charcoal."
         STRINGS.CHARACTERS.GENERIC.DESCRIBE.ROTBOX = "Oh, it's so amazing!"
+        STRINGS.UI.ROTBOX_BUTTON = "Empty"
     end
 end
 
@@ -52,6 +54,10 @@ params.rotbox =
         animbuild = "ui_chester_shadow_3x4",
         pos = Vector3(0, 220, 0),
         side_align_tip = 160,
+        buttoninfo = {
+            text = STRINGS.UI.ROTBOX_BUTTON,  -- Use the localized string
+            position = Vector3(0, -170, 0),
+        }
     },
     type = "chest",
 }
@@ -60,6 +66,21 @@ for y = 2.5, -0.5, -1 do
     for x = 0, 2 do
         table.insert(params.rotbox.widget.slotpos, Vector3(75 * x - 75 * 2 + 75, 75 * y - 75 * 2 + 75, 0))
     end
+end
+
+function params.rotbox.widget.buttoninfo.fn(inst)
+    if inst.components.container then
+        for i = 1, inst.components.container:GetNumSlots() do
+            local item = inst.components.container:RemoveItemBySlot(i)
+            if item then
+                item:Remove()
+            end
+        end
+    end
+end
+
+function params.rotbox.widget.buttoninfo.validfn(inst)
+	return inst.replica.container ~= nil
 end
 
 local containers = require("containers")

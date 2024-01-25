@@ -4,7 +4,7 @@ end
 
 name = e_or_z("No Perish", "禁止腐烂")
 author = 'OpenSource'
-version = '1.0.0'
+version = '1.0.1'
 description = e_or_z(
     [[
 New item:
